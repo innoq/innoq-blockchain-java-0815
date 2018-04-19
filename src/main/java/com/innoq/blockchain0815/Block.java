@@ -1,7 +1,10 @@
 package com.innoq.blockchain0815;
 
+import com.google.common.hash.Hashing;
+
 import java.util.List;
 
+import static com.google.common.base.Charsets.UTF_8;
 import static java.util.Arrays.asList;
 import static java.util.Collections.unmodifiableList;
 import static java.util.stream.Collectors.joining;
@@ -25,7 +28,7 @@ public final class Block {
         this.previousBlockHash = previousBlockHash;
     }
 
-    public String toJson() {
+    String toJson() {
         return
             "{" +
                 "\"index\":" + index + "," +
@@ -34,5 +37,9 @@ public final class Block {
                 "\"transactions\":" + transactions.stream().map(Transaction::toJson).collect(joining(",", "[", "]")) + "," +
                 "\"previousBlockHash\":\"" + previousBlockHash + "\"" +
             "}";
+    }
+
+    String hash() {
+        return Hashing.sha256().hashString(toJson(), UTF_8).toString();
     }
 }

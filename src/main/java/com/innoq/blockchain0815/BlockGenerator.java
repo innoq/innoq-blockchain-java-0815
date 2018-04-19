@@ -8,6 +8,7 @@ import java.util.concurrent.ExecutorCompletionService;
 import java.util.concurrent.Future;
 import java.util.function.Predicate;
 
+import static java.util.Collections.emptyList;
 import static java.util.concurrent.Executors.newFixedThreadPool;
 
 public final class BlockGenerator {
@@ -27,7 +28,7 @@ public final class BlockGenerator {
         final long timestamp = System.currentTimeMillis();
         final String previousHash = block.hash();
 
-        return mine(index, timestamp, block.getTransactions(), previousHash);
+        return mine(index, timestamp, emptyList(), previousHash);
     }
 
     Block mine(int index, long timestamp, List<Transaction> transactions, String previousHash) throws Exception {

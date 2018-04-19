@@ -15,4 +15,24 @@ public class BlockchainTest {
         assertThat(json)
             .isEqualTo("{\"blocks\":[{\"index\":1,\"timestamp\":0,\"proof\":1917336,\"transactions\":[{\"id\":\"b3c973e2-db05-4eb5-9668-3e81c7389a6d\",\"timestamp\":0,\"payload\":\"I am Heribert Innoq\"}],\"previousBlockHash\":\"0\"}],\"blockHeight\":1}");
     }
+
+    @Test
+    public void getCurrentBlockHeight_forNewBlockchain_returns1() {
+        Blockchain blockchain = new Blockchain();
+
+        int currentBlockHeight = blockchain.getCurrentBlockHeight();
+
+        assertThat(currentBlockHeight)
+            .isEqualTo(1);
+    }
+
+    @Test
+    public void mine_shouldAddNewBlock() throws Exception {
+        Blockchain blockchain = new Blockchain();
+
+        blockchain.mine();
+
+        assertThat(blockchain.getCurrentBlockHeight())
+            .isEqualTo(2);
+    }
 }

@@ -1,11 +1,10 @@
 package com.innoq.blockchain0815;
 
-import com.google.common.hash.Hashing;
-
 import java.util.List;
 import java.util.function.Predicate;
 
 import static com.google.common.base.Charsets.UTF_8;
+import static com.google.common.hash.Hashing.sha256;
 import static java.util.Arrays.asList;
 import static java.util.Collections.unmodifiableList;
 import static java.util.stream.Collectors.joining;
@@ -49,6 +48,7 @@ public final class Block {
         return previousBlockHash;
     }
 
+    // TODO: optimize JSON representation
     String toJson() {
         return
             "{" +
@@ -60,12 +60,14 @@ public final class Block {
             "}";
     }
 
-    private String hash = null;
+    private String hash;
 
+    // TODO comparison without string maybe longer
     String hash() {
         if (hash == null) {
-            hash = Hashing.sha256().hashString(toJson(), UTF_8).toString();
+            hash = sha256().hashString(toJson(), UTF_8).toString();
         }
+
         return hash;
     }
 

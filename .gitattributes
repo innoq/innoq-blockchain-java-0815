@@ -6,6 +6,7 @@
 # These files are text and should be normalized
 # (Convert crlf => lf)
 *.java          text
+*.md            text
 *.xml           text
 
 

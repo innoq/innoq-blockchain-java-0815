@@ -33,8 +33,20 @@ public final class Block {
         return index;
     }
 
+    long getTimestamp() {
+        return timestamp;
+    }
+
     long getProof() {
         return proof;
+    }
+
+    List<Transaction> getTransactions() {
+        return transactions;
+    }
+
+    String getPreviousBlockHash() {
+        return previousBlockHash;
     }
 
     String toJson() {
@@ -48,8 +60,13 @@ public final class Block {
             "}";
     }
 
+    private String hash = null;
+
     String hash() {
-        return Hashing.sha256().hashString(toJson(), UTF_8).toString();
+        if (hash == null) {
+            hash = Hashing.sha256().hashString(toJson(), UTF_8).toString();
+        }
+        return hash;
     }
 
     boolean isValid(Predicate<String> validator) {

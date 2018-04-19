@@ -15,7 +15,6 @@ public final class Transaction {
     public String toJson() {
         return
             "{" +
-
                 "\"id\":\"" + id + "\"," +
                 "\"timestamp\":" + timestamp + "," +
                 "\"payload\":\"" + payload + "\"" +

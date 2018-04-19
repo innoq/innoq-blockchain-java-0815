@@ -1,5 +1,6 @@
 package com.innoq.blockchain0815;
 
+import com.google.common.base.Predicate;
 import com.google.common.hash.Hashing;
 
 import java.util.List;
@@ -41,5 +42,9 @@ public final class Block {
 
     String hash() {
         return Hashing.sha256().hashString(toJson(), UTF_8).toString();
+    }
+
+    public boolean isValid(Predicate<String> validator) {
+        return validator.apply(hash());
     }
 }

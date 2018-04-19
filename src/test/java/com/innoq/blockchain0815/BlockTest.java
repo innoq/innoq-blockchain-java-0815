@@ -25,4 +25,14 @@ public class BlockTest {
         assertThat(hash)
             .isEqualTo("000000b642b67d8bea7cffed1ec990719a3f7837de5ef0f8ede36537e91cdc0e");
     }
+
+    @Test
+    public void isValid_forGenesisWithSixZeros_shouldBeTrue() {
+        Block block = Block.GENESIS;
+
+        boolean result = block.isValid(s -> s.startsWith("000000"));
+
+        assertThat(result)
+            .isTrue();
+    }
 }

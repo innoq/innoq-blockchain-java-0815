@@ -12,13 +12,13 @@ public final class Miner {
 
     private final ExecutorService es;
     private final int numberOfParallelWorkers;
-    private final Predicate<Block> validator;
+    private final Predicate<BlockHasher> validator;
 
-    public Miner(Predicate<Block> validator) {
+    public Miner(Predicate<BlockHasher> validator) {
         this(Runtime.getRuntime().availableProcessors() - 1, validator);
     }
 
-    private Miner(int parallelism, Predicate<Block> validator) {
+    private Miner(int parallelism, Predicate<BlockHasher> validator) {
         this.es = newFixedThreadPool(parallelism);
         this.numberOfParallelWorkers = parallelism;
         this.validator = validator;
@@ -57,17 +57,19 @@ public final class Miner {
         @Override
         public Block call() throws InterruptedException {
             int tries = 1;
-            Block candidate = new Block(index, timestamp, proof, transactions, previousHash);
+            final Block block =
+                new Block(index, timestamp, proof, transactions, previousHash);
+            final BlockHasher candidate =
+                new BlockHasher(new BlockSerializer(block));
             while (!validator.test(candidate)) {
-                proof += numberOfParallelWorkers;
+                block.proof += numberOfParallelWorkers;
                 if (tries++ % 100 == 0) {
                     if (Thread.currentThread().isInterrupted()) {
                         throw new InterruptedException();
                     }
                 }
-                candidate = new Block(index, timestamp, proof, transactions, previousHash);
             }
-            return candidate;
+            return block;
         }
     }
 }

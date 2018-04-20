@@ -5,6 +5,7 @@ import com.google.common.base.Stopwatch;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.google.common.base.Charsets.UTF_8;
 import static com.innoq.blockchain0815.Block.GENESIS;
 import static java.util.Collections.emptyList;
 import static java.util.stream.Collectors.joining;
@@ -35,9 +36,10 @@ public final class Blockchain {
     }
 
     private Block generateSuccessorFor(Block block) throws Exception {
-        final int index = block.getIndex() + 1;
+        final int index = block.index + 1;
         final long timestamp = System.currentTimeMillis();
-        final String previousHash = block.hash();
+        final String previousHash =
+            new BlockHasher(new BlockSerializer(block)).hash().toString();
 
         return miner.mine(index, timestamp, emptyList(), previousHash);
     }
@@ -45,9 +47,17 @@ public final class Blockchain {
     public String toJson() {
         return
             "{" +
-                "\"blocks\":" + blocks.stream().map(Block::toJson).collect(joining(",", "[", "]")) + "," +
+                "\"blocks\":" + toJson(blocks) + "," +
                 "\"blockHeight\":" + getCurrentBlockHeight() +
             "}";
+    }
+
+    private static String toJson(List<Block> blocks) {
+        return blocks.stream()
+            .map(BlockSerializer::new)
+            .map(BlockSerializer::serialize)
+            .map(bytes -> new String(bytes, UTF_8))
+            .collect(joining(",", "[", "]"));
     }
 
     public static final class MiningResult {
@@ -64,7 +74,7 @@ public final class Blockchain {
             return
                 "{" +
                     "\"message\":\"" + message + "\"," +
-                    "\"block\":" + block.toJson() +
+                    "\"block\":" + new String(new BlockSerializer(block).serialize(), UTF_8) +
                 "}";
         }
     }

@@ -2,11 +2,11 @@ package com.innoq.blockchain0815;
 
 import java.util.function.Predicate;
 
-public enum ProofOfWork implements Predicate<Block> {
+public enum ProofOfWork implements Predicate<BlockHasher> {
     SIX_LEADING_ZEROS() {
         @Override
-        public boolean test(Block block) {
-            return block.hash().startsWith("000000");
+        public boolean test(BlockHasher blockHasher) {
+            return blockHasher.hash().toString().startsWith("000000");
         }
     }
 }

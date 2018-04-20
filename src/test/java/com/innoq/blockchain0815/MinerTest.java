@@ -14,14 +14,14 @@ public class MinerTest {
         Stopwatch sw = Stopwatch.createStarted();
 
         final Block genesis = miner.mine(
-            Block.GENESIS.getIndex(),
-            Block.GENESIS.getTimestamp(),
-            Block.GENESIS.getTransactions(),
-            Block.GENESIS.getPreviousBlockHash());
+            Block.GENESIS.index,
+            Block.GENESIS.timestamp,
+            Block.GENESIS.transactions,
+            Block.GENESIS.previousBlockHash);
 
         System.out.println("Finding proof for genesis took: " + sw.stop());
 
-        assertThat(genesis.getProof())
-            .isEqualTo(Block.GENESIS.getProof());
+        assertThat(genesis.proof)
+            .isEqualTo(Block.GENESIS.proof);
     }
 }

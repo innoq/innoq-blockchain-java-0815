@@ -1,7 +1,6 @@
 package com.innoq.blockchain0815;
 
 import java.util.List;
-import java.util.function.Predicate;
 
 import static com.google.common.base.Charsets.UTF_8;
 import static com.google.common.hash.Hashing.sha256;
@@ -69,13 +68,5 @@ public final class Block {
         }
 
         return hash;
-    }
-
-    boolean isValid(Predicate<String> validator) {
-        return validator.test(hash());
-    }
-
-    boolean isInvalid(Predicate<String> validator) {
-        return isValid(validator.negate());
     }
 }

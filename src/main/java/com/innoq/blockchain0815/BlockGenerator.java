@@ -3,9 +3,7 @@ package com.innoq.blockchain0815;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
-import java.util.concurrent.CompletionService;
-import java.util.concurrent.ExecutorCompletionService;
-import java.util.concurrent.Future;
+import java.util.concurrent.ExecutorService;
 import java.util.function.Predicate;
 
 import static java.util.Collections.emptyList;
@@ -13,11 +11,12 @@ import static java.util.concurrent.Executors.newFixedThreadPool;
 
 public final class BlockGenerator {
 
-    private static final int PARALLELISM = Runtime.getRuntime().availableProcessors() - 1;
+    private static final int PARALLELISM =
+        Runtime.getRuntime().availableProcessors() - 1;
+    private static final ExecutorService EXECUTOR =
+        newFixedThreadPool(PARALLELISM);
 
     private final Predicate<String> validator;
-    private final CompletionService<Block> cs =
-        new ExecutorCompletionService<>(newFixedThreadPool(PARALLELISM));
 
     public BlockGenerator(String zeros) {
         validator = s -> s.startsWith(zeros);
@@ -32,18 +31,13 @@ public final class BlockGenerator {
     }
 
     Block mine(int index, long timestamp, List<Transaction> transactions, String previousHash) throws Exception {
-        final List<Future<Block>> workers = new ArrayList<>(PARALLELISM);
+        final List<Worker> workers = new ArrayList<>(PARALLELISM);
         for (int proofStart = 0; proofStart < PARALLELISM; proofStart++) {
-            workers.add(cs.submit(new Worker(index, timestamp, proofStart, previousHash, transactions, validator)));
+            workers.add(new Worker(index, timestamp, proofStart, previousHash, transactions, validator));
         }
 
-        try {
-            return cs.take().get();
-        } finally {
-            workers.forEach(w -> w.cancel(true));
-        }
+        return EXECUTOR.invokeAny(workers);
     }
-
 
     private static final class Worker implements Callable<Block> {
 
@@ -64,10 +58,13 @@ public final class BlockGenerator {
         }
 
         @Override
-        public Block call() {
+        public Block call() throws InterruptedException {
             Block candidate = new Block(index, timestamp, proof, transactions, previousHash);
             while (candidate.isInvalid(validator)) {
                 proof += PARALLELISM;
+                if (Thread.currentThread().isInterrupted()) {
+                    throw new InterruptedException();
+                }
                 candidate = new Block(index, timestamp, proof, transactions, previousHash);
             }
             return candidate;

@@ -2,6 +2,8 @@ package com.innoq.blockchain0815.node;
 
 import com.innoq.blockchain0815.Blockchain;
 import com.innoq.blockchain0815.Blockchain.MiningResult;
+import com.innoq.blockchain0815.Miner;
+import com.innoq.blockchain0815.ProofOfWork;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpServer;
 
@@ -13,7 +15,11 @@ import java.util.UUID;
 public final class BlockchainNode {
 
     private final UUID id = UUID.randomUUID();
-    private final Blockchain blockchain = new Blockchain();
+    private final Blockchain blockchain;
+
+    public BlockchainNode(Miner miner) {
+        blockchain = new Blockchain(miner);
+    }
 
     public void start(int port) throws IOException {
         final HttpServer httpServer = HttpServer.create(new InetSocketAddress(port), 0);
@@ -90,7 +96,7 @@ public final class BlockchainNode {
     }
 
     public static void main(String[] args) throws IOException {
-        new BlockchainNode().start(3000);
+        final Miner miner = new Miner(ProofOfWork.SIX_LEADING_ZEROS);
+        new BlockchainNode(miner).start(3000);
     }
-
 }

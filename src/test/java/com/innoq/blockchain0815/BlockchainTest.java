@@ -6,10 +6,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class BlockchainTest {
 
+    private Blockchain blockchain =
+        new Blockchain(new Miner(ProofOfWork.SIX_LEADING_ZEROS));
+
     @Test
     public void toJson_shouldWork() {
-        Blockchain blockchain = new Blockchain();
-
         String json = blockchain.toJson();
 
         assertThat(json)
@@ -18,8 +19,6 @@ public class BlockchainTest {
 
     @Test
     public void getCurrentBlockHeight_forNewBlockchain_returns1() {
-        Blockchain blockchain = new Blockchain();
-
         int currentBlockHeight = blockchain.getCurrentBlockHeight();
 
         assertThat(currentBlockHeight)
@@ -28,8 +27,6 @@ public class BlockchainTest {
 
     @Test
     public void mine_shouldAddNewBlock() throws Exception {
-        Blockchain blockchain = new Blockchain();
-
         blockchain.mine();
 
         assertThat(blockchain.getCurrentBlockHeight())

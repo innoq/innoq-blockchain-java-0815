@@ -5,15 +5,15 @@ import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class BlockGeneratorTest {
+public class MinerTest {
 
     @Test
     public void mine_shouldFindGenesis() throws Exception {
-        final BlockGenerator blockGenerator = new BlockGenerator("000000");
+        Miner miner = new Miner(ProofOfWork.SIX_LEADING_ZEROS);
 
         Stopwatch sw = Stopwatch.createStarted();
 
-        final Block genesis = blockGenerator.mine(
+        final Block genesis = miner.mine(
             Block.GENESIS.getIndex(),
             Block.GENESIS.getTimestamp(),
             Block.GENESIS.getTransactions(),

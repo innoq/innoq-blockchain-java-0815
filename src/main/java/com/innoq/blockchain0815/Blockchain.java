@@ -31,7 +31,7 @@ public final class Blockchain {
 
         Stopwatch sw = Stopwatch.createStarted();
         final Block next = generator.generateSuccessorFor(last);
-        final String message = sw.stop().toString();
+        final String message = "Mined a new block in " + sw.stop() + ".";
 
         add(next);
         return new MiningResult(message, next);

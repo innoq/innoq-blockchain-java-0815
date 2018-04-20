@@ -3,7 +3,6 @@ package com.innoq.blockchain0815;
 import com.google.common.base.Stopwatch;
 import org.junit.Test;
 
-import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class BlockGeneratorTest {
@@ -20,7 +19,7 @@ public class BlockGeneratorTest {
             Block.GENESIS.getTransactions(),
             Block.GENESIS.getPreviousBlockHash());
 
-        System.out.println(sw.elapsed(MILLISECONDS));
+        System.out.println("Finding proof for genesis took: " + sw.stop());
 
         assertThat(genesis.getProof())
             .isEqualTo(Block.GENESIS.getProof());

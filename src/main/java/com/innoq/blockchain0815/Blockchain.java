@@ -1,13 +1,15 @@
 package com.innoq.blockchain0815;
 
-import com.google.common.base.Stopwatch;
+import com.innoq.blockchain0815.support.Stopwatch;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.google.common.base.Charsets.UTF_8;
 import static com.innoq.blockchain0815.Block.GENESIS;
+import static java.lang.String.format;
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Collections.emptyList;
+import static java.util.concurrent.TimeUnit.SECONDS;
 import static java.util.stream.Collectors.joining;
 
 public final class Blockchain {
@@ -27,9 +29,12 @@ public final class Blockchain {
     public MiningResult mine() throws Exception {
         final Block last = blocks.get(getCurrentBlockHeight() - 1);
 
-        Stopwatch sw = Stopwatch.createStarted();
+        final Stopwatch sw = Stopwatch.started();
         final Block next = generateSuccessorFor(last);
-        final String message = "Mined a new block in " + sw.stop() + ".";
+        sw.stop();
+
+        final String message =
+            format("Mined a new block in %ss.", sw.elapsed(SECONDS));
 
         blocks.add(next);
         return new MiningResult(message, next);

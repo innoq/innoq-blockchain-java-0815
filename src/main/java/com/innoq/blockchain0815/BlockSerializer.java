@@ -2,7 +2,7 @@ package com.innoq.blockchain0815;
 
 import java.util.List;
 
-import static com.google.common.base.Charsets.UTF_8;
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.stream.Collectors.joining;
 
 final class BlockSerializer {

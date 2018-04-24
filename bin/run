@@ -16,5 +16,5 @@ if [ ! -r "$JAR" ]; then
   ./bin/build
 fi
 
-java -cp "$HOME/.m2/repository/com/google/guava/guava/24.1-jre/guava-24.1-jre.jar:$JAR" com.innoq.blockchain0815.node.BlockchainNode "$@"
+java -cp "$JAR" com.innoq.blockchain0815.node.BlockchainNode "$@"
 

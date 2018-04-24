@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+#Builds a docker container with this project within docker.
+#
+#Usage:
+#  $ ./bin/docker-build
+
+set -euo pipefail
+IFS=$'\n\t'
+
+docker build -f Dockerfile.graal -t innoq-blockchain-java-0815-graal .
+

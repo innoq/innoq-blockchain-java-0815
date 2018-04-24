@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+#Starts the project with docker.
+#
+#Usage:
+#  $ ./bin/docker-run
+
+set -euo pipefail
+IFS=$'\n\t'
+
+IMAGE="innoq-blockchain-java-0815-graal"
+if [ $(docker image inspect "$IMAGE" 2>/dev/null) ]; then
+    ./bin/docker-build
+fi
+
+docker run -p 3000:3000 "$IMAGE"
+

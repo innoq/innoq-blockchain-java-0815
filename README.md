@@ -91,6 +91,30 @@ Retrieving blocks from blockchain running at: http://localhost:3000
 }
 ```
 
+### Mining a new block
+
+To mine a new block execute
+
+```shell
+./bin/mine
+```
+
+This will output something like
+
+```shell
+Mining a new block in blockchain running at: http://localhost:3000
+{
+  "message": "Mined a new block in 1.013 s.",
+  "block": {
+    "index": 2,
+    "timestamp": 1524588413541,
+    "proof": 2573043,
+    "transactions": [],
+    "previousBlockHash": "000000b642b67d8bea7cffed1ec990719a3f7837de5ef0f8ede36537e91cdc0e"
+  }
+}
+```
+
 ## License
 
 innoq-blockchain-java-0815 is Open Source software released under the

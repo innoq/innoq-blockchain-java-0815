@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+#Builds the project.
+#
+#Usage:
+#  $ ./bin/build
+
+set -euo pipefail
+IFS=$'\n\t'
+
+./mvnw clean package

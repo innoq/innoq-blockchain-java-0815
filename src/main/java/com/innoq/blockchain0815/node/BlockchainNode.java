@@ -27,6 +27,7 @@ public final class BlockchainNode {
         httpServer.createContext("/blocks", this::blocks);
         httpServer.createContext("/mine", this::mine);
         httpServer.start();
+        System.out.println("Started blockchain on port: " + port);
 
     }
 

@@ -97,7 +97,15 @@ public final class BlockchainNode {
     }
 
     public static void main(String[] args) throws IOException {
+        final int port = port(args);
         final Miner miner = new Miner(ProofOfWork.SIX_LEADING_ZEROS);
-        new BlockchainNode(miner).start(3000);
+        new BlockchainNode(miner).start(port);
+    }
+
+    private static int port(String[] args) {
+        if (args.length > 0) {
+            return Integer.parseInt(args[0]);
+        }
+        return 3000;
     }
 }

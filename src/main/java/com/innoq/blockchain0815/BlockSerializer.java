@@ -27,6 +27,18 @@ final class BlockSerializer {
         return result;
     }
 
+    byte[] getPreProof() {
+        return preProof;
+    }
+
+    byte[] getPostProof() {
+        return postProof;
+    }
+
+    byte[] getProof() {
+        return toBytes(block.proof);
+    }
+
     private static byte[] calculatePreProof(Block block) {
         return ("{" +
             "\"index\":" + block.index + "," +
@@ -57,7 +69,6 @@ final class BlockSerializer {
             "}";
     }
 
-    // XXX: optimize here?
     private static byte[] toBytes(long x) {
         return Long.toString(x).getBytes(UTF_8);
     }

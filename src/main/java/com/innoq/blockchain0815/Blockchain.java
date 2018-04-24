@@ -39,7 +39,7 @@ public final class Blockchain {
         final int index = block.index + 1;
         final long timestamp = System.currentTimeMillis();
         final String previousHash =
-            new BlockHasher(new BlockSerializer(block)).hash().toString();
+            new BlockHasher(new BlockSerializer(block)).hash();
 
         return miner.mine(index, timestamp, emptyList(), previousHash);
     }

@@ -32,6 +32,26 @@ To run the project execute
 If you want to change the used port (default 3000) supply the port number as
 first argument.
 
+## Interacting with a running blockchain
+
+### Retrieving node information
+
+To retrieve some information about the running blockchain node execute
+
+```shell
+./bin/node-info
+```
+
+This will output something like
+
+```shell
+Retrieving node info from blockchain runnig at: http://localhost:3000
+{
+  "nodeId": "83cf6954-2e59-499b-865a-07b7f667e947",
+  "currentBlockHeight": 2
+}
+```
+
 ## License
 
 innoq-blockchain-java-0815 is Open Source software released under the

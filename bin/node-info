@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+#Connects to a running blockchain and prints the node information.
+#
+#Usage:
+#  $ ./bin/node-info [<URI>]
+#
+#Arguments:
+#  URI              The URI the blockchain is running at (Default: http://localhost:3000)
+
+set -euo pipefail
+IFS=$'\n\t'
+
+log()   { echo "$*" >&2; }
+info()  { log "$*";      }
+warn()  { log "[!] $*";  }
+error() { log "[!!] $*"; }
+
+if ! command -v jq >/dev/null; then
+    jq() { json_pp; }
+fi
+
+if ! command -v json_pp >/dev/null; then
+    json_pp() { cat; }
+fi
+
+URI="${1:-http://localhost:3000}"
+
+info "Retrieving node info from blockchain runnig at: $URI"
+curl -sS "$URI" | jq
+

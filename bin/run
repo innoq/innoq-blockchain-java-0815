@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+#Runs the project.
+#
+#Usage:
+#  $ ./bin/run [<PORT>]
+#
+#Arguments:
+#  PORT              Expose the application on this port (Default: 3000)
+
+set -euo pipefail
+IFS=$'\n\t'
+
+JAR="target/innoq-blockchain-java-0815.jar"
+
+if [ ! -r "$JAR" ]; then
+  ./bin/build
+fi
+
+java -cp "$HOME/.m2/repository/com/google/guava/guava/24.1-jre/guava-24.1-jre.jar:$JAR" com.innoq.blockchain0815.node.BlockchainNode "$@"
+

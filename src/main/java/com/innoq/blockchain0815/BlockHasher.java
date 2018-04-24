@@ -1,10 +1,11 @@
 package com.innoq.blockchain0815;
 
-import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 public final class BlockHasher {
+
+    private static final char[] HEX_DIGITS = "0123456789abcdef".toCharArray();
 
     private final MessageDigest digest = sha256();
     private final BlockSerializer serializer;
@@ -19,8 +20,15 @@ public final class BlockHasher {
         digest.update(serializer.getPreProof());
         digest.update(serializer.getProof());
         digest.update(serializer.getPostProof());
-        final byte[] hash = this.digest.digest();
-        return String.format("%064x", new BigInteger(1, hash));
+        return toString(digest.digest());
+    }
+
+    private static String toString(byte[] bytes) {
+        StringBuilder sb = new StringBuilder(2 * bytes.length);
+        for (byte b : bytes) {
+            sb.append(HEX_DIGITS[(b >> 4) & 0xf]).append(HEX_DIGITS[b & 0xf]);
+        }
+        return sb.toString();
     }
 
     private static MessageDigest sha256() {

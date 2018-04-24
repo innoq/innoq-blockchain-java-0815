@@ -6,6 +6,7 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.function.Predicate;
 
+import static java.lang.Math.max;
 import static java.util.concurrent.Executors.newFixedThreadPool;
 
 public final class Miner {
@@ -15,7 +16,7 @@ public final class Miner {
     private final Predicate<BlockHasher> validator;
 
     public Miner(Predicate<BlockHasher> validator) {
-        this(Runtime.getRuntime().availableProcessors() - 1, validator);
+        this(max(Runtime.getRuntime().availableProcessors() - 1, 1), validator);
     }
 
     private Miner(int parallelism, Predicate<BlockHasher> validator) {

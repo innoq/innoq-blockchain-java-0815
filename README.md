@@ -32,3 +32,8 @@ To run the project execute
 If you want to change the used port (default 3000) supply the port number as
 first argument.
 
+## License
+
+innoq-blockchain-java-0815 is Open Source software released under the
+[Apache 2.0 license](http://www.apache.org/licenses/LICENSE-2.0.html).
+

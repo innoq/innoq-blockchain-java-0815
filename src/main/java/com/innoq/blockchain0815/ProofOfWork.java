@@ -6,7 +6,7 @@ public enum ProofOfWork implements Predicate<BlockHasher> {
     SIX_LEADING_ZEROS() {
         @Override
         public boolean test(BlockHasher blockHasher) {
-            return blockHasher.hash().startsWith("000000");
+            return blockHasher.hash().asString().startsWith("000000");
         }
     }
 }
